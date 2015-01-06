@@ -1,7 +1,7 @@
 #if !defined( _BINTYPE_H )
 #define _BINTYPE_H
 
-//二进制常量定义
+// Binary constant definitions
 #define B0000_0000 0x00
 #define B0000_0001 0x01
 #define B0000_0010 0x02
@@ -273,9 +273,5 @@
 #define B1111_1101 0xFD
 #define B1111_1110 0xFE
 #define B1111_1111 0xFF 
-
-
-
-
 
 #endif

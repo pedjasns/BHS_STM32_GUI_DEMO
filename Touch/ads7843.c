@@ -1,14 +1,13 @@
 #include "..\APP\includes.h"
 
+// A/D channel selection command words and working registers
+#define CHX 0x90 // X + channel selection control word
+#define CHY 0xd0 // Y + channel selection control word
 
-// A/D 通道选择命令字和工作寄存器
-#define	CHX 	0x90 	//通道X+的选择控制字	
-#define	CHY 	0xd0	//通道Y+的选择控制字 
+// # define CHX 0xd0 // X + channel selection control word
+// # define CHY 0x90 // Y + channel selection control word
 
-//#define	CHX 	0xd0 	//通道X+的选择控制字	
-//#define	CHY 	0x90	//通道Y+的选择控制字 
-
-MATRIX  Matrix;//为了避免重复校准，可以保存该校准值
+MATRIX Matrix; // In order to avoid duplication of calibration, the calibration values can be saved
 
 //====================================================================================
 static void Delayus( int k)
@@ -23,7 +22,7 @@ void TP_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_8 | GPIO_Pin_10 | GPIO_Pin_12;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;		 //推挽输出
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;		 // Push-pull output
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
 	
@@ -86,8 +85,8 @@ static u16 RD_AD(void)
 }
 
 
-#define ReadLoop 13 //必须>2
-#define LOSS_DATA 5 //前后丢掉数据个数
+#define ReadLoop 13 //Have to > 2
+#define LOSS_DATA 5 // The number of lost data before and after
 u16 Read_XY(u8 xy) 
 { 
  u16 i, j;
@@ -105,7 +104,7 @@ u16 Read_XY(u8 xy)
        //sum += buf[i];
     }
     
-    //排序
+    // Sequence
     for(i=0; i<ReadLoop-1; i++)
     {
        for(j=i+1; j<ReadLoop; j++)
@@ -143,12 +142,12 @@ uint8 TP_GetAdXY(u16 *x, u16 *y)
 }
 
 /*
-功能：读取触摸屏读坐标，该坐标未做转换，不能直接使用
+Function: Read touchscreen read coordinate that without making the conversion, you can not directly use
 
-返回：0=无效坐标
-      1=有效坐标
+Returns: 0 = Invalid coordinates
+       1 = active coordinate
 
-说明：本函数连续采样2次，2次采样结果+-5范围内才算有效
+Description: This function is continuously sampled twice, twice the sampling results to be valid within + -5 range
 */
 uint8 TP_GetAdXY2(u16 *x, u16 *y, uint32 delay) 
 {u16 x1,y1;
@@ -161,7 +160,7 @@ uint8 TP_GetAdXY2(u16 *x, u16 *y, uint32 delay)
        return(0);
     
 //    if(delay>=OS_TIME)
-//       os_dly_wait(delay/OS_TIME);//300ms后再采样1次
+//       os_dly_wait(delay/OS_TIME);//300ms After sampling 1
     
     //do{
        flag=TP_GetAdXY(&x2, &y2);
@@ -170,7 +169,7 @@ uint8 TP_GetAdXY2(u16 *x, u16 *y, uint32 delay)
     if(flag==0)
        return(0);
     
-    if( ( (x2<=x1 && x1<x2+50) || (x1<=x2 && x2<x1+50) )//前后两次采样在+-5内
+    if( ( (x2<=x1 && x1<x2+50) || (x1<=x2 && x2<x1+50) ) // Twice before and after sampling within + -5
      && ( (y2<=y1 && y1<y2+50) || (y1<=y2 && y2<y1+50) ) )
     {
         *x=(x1+x2)/2;
@@ -182,9 +181,9 @@ uint8 TP_GetAdXY2(u16 *x, u16 *y, uint32 delay)
 }
 
 ///*
-//功能：读取触摸屏在LCD的坐标，该坐标已经转换为可用的视图坐标
-//返回：0=不在显示区域
-//      1=在显示区域
+// Function: Reads the coordinates of the LCD touch screen, the coordinates have been converted into usable view coordinates
+// Returns: 0 = not display area
+// 1 = display region
 //*/
 //uint8 TP_GetLCDXY(u16 *x, u16 *y) 
 //{POINT   displayPoint;
@@ -198,7 +197,7 @@ uint8 TP_GetAdXY2(u16 *x, u16 *y, uint32 delay)
 //       TouchSample.x=xt/4; TouchSample.y=yt/4;
 //       getDisplayPoint( &displayPoint, &TouchSample, &Matrix );
 //       
-//       if(IsDisplayArea(&displayPoint)) //判断是否在显示区域
+//       if(IsDisplayArea(&displayPoint)) // Determines whether the display area
 //       {
 //          flag=1;
 //          *x=displayPoint.x;

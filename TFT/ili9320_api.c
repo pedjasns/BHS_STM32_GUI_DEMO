@@ -2,47 +2,47 @@
 
 
 /****************************************************************************
-* 名    称：GUI_CmpColor()
-* 功    能：判断颜色值是否一致。
-* 入口参数：color1		颜色值1
-*		        color2		颜色值2
-* 出口参数：返回1表示相同，返回0表示不相同。
-* 说    明：
+* Name: GUI_CmpColor ()
+* Function: to determine the color values are the same.
+* Entrance parameters: color1 a color value
+* Color2 color value 2
+* Export parameters: return 1 represent the same, not the same returns 0.
+* Description:
 ****************************************************************************/
 #define  GUI_CmpColor(color1, color2)	( (color1&0x01) == (color2&0x01) )
 
 
 /****************************************************************************
-* 名    称：u16 GUI_Color565(u32 RGB)
-* 功    能：将RGB颜色转换为16位颜色。
-* 入口参数：RGB  颜色值
-* 出口参数：返回16位RGB颜色值。
-* 说    明：
-* 调用方法：i=GUI_Color565(0xafafaf);
+* Name: u16 GUI_Color565 (u32 RGB)
+* Function: RGB color conversion to 16-bit color.
+* Entrance parameters: RGB color values
+* Export Parameters: Returns 16 RGB color values.
+* Description:
+* Call the method: i = GUI_Color565 (0xafafaf);
 ****************************************************************************/
 u16 GUI_Color565(u32 RGB)
 {
   u8  r, g, b;
 
-  b = ( RGB >> (0+3) ) & 0x1f;		// 取B色的高5位
-  g = ( RGB >> (8+2) ) & 0x3f;		// 取G色的高6位
-  r = ( RGB >> (16+3)) & 0x1f;		// 取R色的高5位
+  b = ( RGB >> (0+3) ) & 0x1f;		// Take B-colored high five
+  g = ( RGB >> (8+2) ) & 0x3f;		// Take G-color high 6
+  r = ( RGB >> (16+3)) & 0x1f;		// Take R-colored high five
    
   return( (r<<11) + (g<<5) + (b<<0) );		
 }
 
 /****************************************************************************
-* 名    称：void GUI_Text(u16 x, u16 y, u8 *str, u16 len,u16 Color, u16 bkColor)
-* 功    能：在指定座标显示字符串
-* 入口参数：x      行座标
-*           y      列座标
-*           *str   字符串
-*           len    字符串长度
-*           Color  字符颜色
-*           bkColor字符背景颜色
-* 出口参数：无
-* 说    明：
-* 调用方法：GUI_Text(0,0,"0123456789",10,0x0000,0xffff);
+* Name: void GUI_Text (u16 x, u16 y, u8 * str, u16 len, u16 Color, u16 bkColor)
+* Function: displays the string at the specified coordinates
+* Entrance parameters: x coordinate line
+* Y coordinate column
+* * Str string
+* Len string length
+* Color Character Color
+* BkColor character background color
+* Export parameters: None
+* Description:
+* Call the method: GUI_Text (0,0, "0123456789", 10,0x0000,0xffff);
 ****************************************************************************/
 void GUI_Text(u16 x, u16 y, u8 *str, u16 len,u16 Color, u16 bkColor)
 {
@@ -55,16 +55,16 @@ void GUI_Text(u16 x, u16 y, u8 *str, u16 len,u16 Color, u16 bkColor)
 }
 
 /****************************************************************************
-* 名    称：void GUI_Line(u16 x0, u16 y0, u16 x1, u16 y1,u16 color)
-* 功    能：在指定座标画直线
-* 入口参数：x0     A点行座标
-*           y0     A点列座标
-*           x1     B点行座标
-*           y1     B点列座标
-*           color  线颜色
-* 出口参数：无
-* 说    明：
-* 调用方法：GUI_Line(0,0,240,320,0x0000);
+* Name: void GUI_Line (u16 x0, u16 y0, u16 x1, u16 y1, u16 color)
+* Function: draw a straight line at the specified coordinates
+* Entrance parameters: x0 A point line coordinates
+* Y0 A column coordinates of the point
+* X1 B point line coordinates
+* Y1 B point coordinates column
+* Color line color
+* Export parameters: None
+* Description:
+* Call the method: GUI_Line (0,0,240,320,0x0000);
 ****************************************************************************/
 void GUI_Line(u16 x0, u16 y0, u16 x1, u16 y1,u16 color)
 {
@@ -242,12 +242,12 @@ void GUI_Line(u16 x0, u16 y0, u16 x1, u16 y1,u16 color)
 }
 
 /****************************************************************************
-* 名    称：void GUI_Circle(u16 cx,u16 cy,u16 r,u16 color,u8 fill)
-* 功    能：在指定座标画圆，可填充
-* 入口参数：
-* 出口参数：
-* 说    明：
-* 调用方法：
+* Name: void GUI_Circle (u16 cx, u16 cy, u16 r, u16 color, u8 fill)
+* Function: Circle in the specified coordinates, can be filled
+* Entrance parameters:
+* Export parameters:
+* Description:
+* Call the method:
 ****************************************************************************/
 void GUI_Circle(u16 cx,u16 cy,u16 r,u16 color,u8 fill)
 {
@@ -293,12 +293,12 @@ void GUI_Circle(u16 cx,u16 cy,u16 r,u16 color,u8 fill)
 }
 
 /****************************************************************************
-* 名    称：void GUI_Rectangle(u16 x0, u16 y0, u16 x1, u16 y1,u16 color,u8 fill)
-* 功    能：在指定区域画矩形，可填充颜色
-* 入口参数：
-* 出口参数：
-* 说    明：
-* 调用方法：
+* Name: void GUI_Rectangle (u16 x0, u16 y0, u16 x1, u16 y1, u16 color, u8 fill)
+* Function: draw a rectangle in the specified area can be filled with color
+* Entrance parameters:
+* Export parameters:
+* Description:
+* Call the method:
 ****************************************************************************/
 void GUI_Rectangle(u16 x0, u16 y0, u16 x1, u16 y1,u16 color,u8 fill)
 {
@@ -327,12 +327,12 @@ void GUI_Rectangle(u16 x0, u16 y0, u16 x1, u16 y1,u16 color,u8 fill)
 }
 
 /****************************************************************************
-* 名    称：void  GUI_Square(u16 x0, u16 y0, u16 with, u16 color,u8 fill)
-* 功    能：在指定区域画正方形，可填充颜色
-* 入口参数：
-* 出口参数：
-* 说    明：
-* 调用方法：
+* Name: void GUI_Square (u16 x0, u16 y0, u16 with, u16 color, u8 fill)
+* Function: draw a square in the specified area can be filled with color
+* Entrance parameters:
+* Export parameters:
+* Description:
+* Call the method:
 ****************************************************************************/
 void  GUI_Square(u16 x0, u16 y0, u16 with, u16 color,u8 fill)
 {

@@ -73,7 +73,7 @@ void GUI_X_Delay(int period)
 *                                          GUI_X_ExecIdle()
 *********************************************************************************************************
 */
-/*WM空闲时调用*/
+/*WM Idle call */
 void GUI_X_ExecIdle(void) 
 {
   //OS_X_Delay(1);
@@ -93,8 +93,8 @@ void GUI_X_ExecIdle(void)
 
 void GUI_X_InitOS (void)
 { 
-    DispSem = OSSemCreate(1);           //建立一个互斥型信号量
-  EventMbox = OSMboxCreate((void *)0);	//建立一个邮箱
+    DispSem = OSSemCreate(1);           //Establish a mutex semaphore
+  EventMbox = OSMboxCreate((void *)0);	//Establish a mailbox
 }
 
 
@@ -158,8 +158,8 @@ static void CheckInit(void)
     }
 }
 
-
-/*被GUI_Init()调用,用来初始化一些GUI运行之前需要用的硬件,如键盘或者鼠标之类的.如果不需要的话,可以为空*/
+/* Are GUI_Init() call to initialize some GUI before running hardware needed, 
+such as a keyboard or a mouse. If not, you can empty*/
 void GUI_X_Init(void)
 {
   KeySem = OSSemCreate(0);
@@ -183,7 +183,7 @@ int GUI_X_WaitKey(void)
     CheckInit();
     if(KeyPressed==0)
       {
-        OSSemPend(KeySem,0,&err); //等待信号量
+        OSSemPend(KeySem,0,&err); // Waiting for the semaphore
       }
     r= KeyPressed;
     KeyPressed = 0;
@@ -194,7 +194,7 @@ int GUI_X_WaitKey(void)
 void GUI_X_StoreKey(int k)
 {
     KeyPressed = k;
-    OSSemPost(KeySem); //释放信号量
+    OSSemPost(KeySem); // Release Semaphore
 }
 
 void GUI_X_Log(const char *s) 

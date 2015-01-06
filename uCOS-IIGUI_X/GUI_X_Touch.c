@@ -26,7 +26,7 @@ Purpose     : Config / System dependent externals for GUI
 
 unsigned short int X,Y;
 
-//校正参数
+// Correction parameters
 MATRIX  matrix=
 {0x0000F900, 0xFFFFFDC0, 0xFFE714B0, 0x00000280, 0x00017700, 0xFFC219C0, 0x0002887A };
 

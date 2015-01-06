@@ -1,3 +1,3 @@
-目前只移植基本功能：
-1.通过串口1能看到打印信息：串口波特率57600
-2.PC8 LED 100ms时间间隔闪烁
+Currently only transplant basic functions:
+1. 1 can see through the serial port to print information: 57600 baud rate
+2. PC8 LED 100ms interval flashes

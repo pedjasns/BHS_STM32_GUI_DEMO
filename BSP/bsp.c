@@ -1,16 +1,16 @@
 #include "..\App\includes.h"
 
 /*
-*********************************************************************************************************
+**************************************************************************************
 QQ: 958664258
-21IC用户名：banhushui
-交流平台：http://blog.21ic.com/user1/5817/index.html
-淘宝店铺：http://shop58559908.taobao.com
-旺旺：半壶水电子
-编译器版本：MDK3.5
-硬件平台：BHS-STM32--->
+21IC Yanqiemeimei banhushui
+W platform Brasenia coal http://blog.21ic.com/user1/5817/index.html
+Luxuezhaige coal http://shop58559908.taobao.com
+Bald bald coal water scorpion black and Chad Like
+Shi Yao Pinxiaoyamei MDK3.5
+Hard coal daphne platform BHS-STM32 --->
 http://item.taobao.com/auction/item_detail-db2-a29ff4d34829cbddeffe864fc1741d21.jhtml
-*********************************************************************************************************
+**************************************************************************************
 */
 
 /*******************************************************************************
@@ -76,13 +76,13 @@ void RCC_Configuration(void)
   //RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
 }
 
-//关闭调试接口，作GPIO使用
+// Rolling superfluous Jiong Long Hongju spear chase GPIO enable Yan
 void UnableJTAG(void)
 {
    
-   RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;                     // enable clock for Alternate Function
-   AFIO->MAPR &= ~(7UL<<24); // clear used bit
-   AFIO->MAPR |= (4UL<<24); // set used bits
+   RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;  // enable clock for Alternate Function
+   AFIO->MAPR &= ~(7UL<<24); 			// clear used bit
+   AFIO->MAPR |= (4UL<<24); 			// set used bits
 }
 
 /*******************************************************************************
@@ -99,7 +99,7 @@ void GPIO_Configuration(void)
   //UnableJTAG();
   
   
-  //GPIOC输出// PC13=LED
+  //GPIOC Wins commission // PC13=LED
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;

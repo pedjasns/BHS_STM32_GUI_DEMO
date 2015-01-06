@@ -1,10 +1,10 @@
 #ifndef __ADS7843_H
 #define __ADS7843_H
 
-// A/D 通道选择命令字和工作寄存器
-// A/D 通道选择命令字和工作寄存器
-#define	CHX 	0x90 	//通道X+的选择控制字	
-#define	CHY 	0xd0	//通道Y+的选择控制字 
+// A/D Channel selection command word and work register
+
+#define	CHX 	0x90 	// X + channel selection control word
+#define	CHY 	0xd0	// Y + channel selection control word 
 
 #define TP_DCLK_H() myGPIO_SetBits(GPIOD, 10)
 
@@ -18,8 +18,8 @@
 
 #define TP_DIN_L() myGPIO_ResetBits(GPIOD, 8)
 
-#define TP_DOUT		PD6in  //GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_6)//( IOPIN1 & MASK_DOUT )	//数据输入
-#define TP_BUSY		PD9in  //GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_9)//( IOPIN1 & MASK_DOUT )	//数据输入
+#define TP_DOUT		PD6in  //GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_6)//( IOPIN1 & MASK_DOUT )	//Data Entry
+#define TP_BUSY		PD9in  //GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_9)//( IOPIN1 & MASK_DOUT )	//Data Entry
 
 void TP_Init(void);
 u16 Read_XY(u8 xy);

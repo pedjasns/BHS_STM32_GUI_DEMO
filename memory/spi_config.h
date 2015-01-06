@@ -40,7 +40,7 @@
 
 
 
-//下面的定义3.50与3.22的库不一样
+//The following definitions 3.50 and 3.22 of the library is not the same
 //----------------------------------------------
 #define SPI_FLAG_RXNE           SPI_I2S_FLAG_RXNE
 #define SPI_FLAG_TXE            SPI_I2S_FLAG_TXE

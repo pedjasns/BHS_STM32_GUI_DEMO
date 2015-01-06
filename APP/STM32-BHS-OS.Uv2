@@ -19,7 +19,6 @@ Group (TFT)
 Group (memory)
 Group (Touch)
 Group (GUIDEMO)
-Group (FW_src)
 
 File 1,2,<..\Startup\cortexm3_macro.s><cortexm3_macro.s>
 File 1,2,<..\Startup\stm32f10x_startup.s><stm32f10x_startup.s>
@@ -79,30 +78,6 @@ File 15,1,<..\uCGUIDemo\GUIDEMO_Speed.c><GUIDEMO_Speed.c>
 File 15,1,<..\uCGUIDemo\GUIDEMO_Touch.c><GUIDEMO_Touch.c>
 File 15,1,<..\uCGUIDemo\GUIDEMO_WM.c><GUIDEMO_WM.c>
 File 15,1,<..\uCGUIDemo\MicriumLogo.c><MicriumLogo.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_adc.c><stm32f10x_adc.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_bkp.c><stm32f10x_bkp.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_can.c><stm32f10x_can.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_crc.c><stm32f10x_crc.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_dac.c><stm32f10x_dac.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_dbgmcu.c><stm32f10x_dbgmcu.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_dma.c><stm32f10x_dma.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_exti.c><stm32f10x_exti.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_flash.c><stm32f10x_flash.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_fsmc.c><stm32f10x_fsmc.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_gpio.c><stm32f10x_gpio.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_i2c.c><stm32f10x_i2c.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_iwdg.c><stm32f10x_iwdg.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_lib.c><stm32f10x_lib.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_nvic.c><stm32f10x_nvic.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_pwr.c><stm32f10x_pwr.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_rcc.c><stm32f10x_rcc.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_rtc.c><stm32f10x_rtc.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_sdio.c><stm32f10x_sdio.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_spi.c><stm32f10x_spi.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_systick.c><stm32f10x_systick.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_tim.c><stm32f10x_tim.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_usart.c><stm32f10x_usart.c>
-File 16,1,<C:\Keil35\ARM\RV31\LIB\ST\STM32F10x\stm32f10x_wwdg.c><stm32f10x_wwdg.c>
 
 
 Options 1,0,0  // Target 'Flash'

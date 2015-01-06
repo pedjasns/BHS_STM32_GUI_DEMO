@@ -391,7 +391,7 @@ void GUIDEMO_main(void)
    /* Show Intro */
    if (first == 0)
    {
-      _ExecCalibration();//´¥ÃþÐ£×¼
+      _ExecCalibration(); // Touch Calibration
       first = 1;
    }  
    GUIDEMO_Intro();
@@ -404,7 +404,7 @@ void GUIDEMO_main(void)
    xPos = LCD_GetXSize() - xSize;
    yPos = 0;
    /* Create info window and run the individual demos */
-   _ahFrameWin[0] = FRAMEWIN_Create("µC/GUI Demo", NULL, WM_CF_STAYONTOP,
+   _ahFrameWin[0] = FRAMEWIN_Create("Que/GUI Demo", NULL, WM_CF_STAYONTOP,
                      xPos, yPos, xSize, ySize);
    //    _ahInfoWin[0] = WM_GetFirstChild(_ahFrameWin[0]);
    _ahInfoWin[0] = WM_CreateWindowAsChild(0, 0, 0, 0,

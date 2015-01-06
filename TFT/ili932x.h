@@ -2,22 +2,23 @@
 #define __ILI932X_H
 
 
-
-//定义驱动IC是ILI9320还是ILI9325
+// Define the driver IC is ILI9320 or ILI9325
 #define  ILI9325 
 
-//屏幕旋转定义 数字按照 ID[1:0]AM 按照PDF中的配置定义
+// Definition digital screen rotation in accordance with the ID [1: 0] AM PDF 
+// configuration in accordance with the definition
 #define ID_AM  110
 
 #define  XMAX   240
 #define  YMAX   320
 
-//屏幕开始时显示方式，注意：当IDelay时显示第一幅画面是逐像素刷新的
-//此时必须手动在刷新结束后加上  LCD_WR_REG(0x0007,0x0173);才能显示
-//当Immediately时没有被注释掉是不需要此过程
+// Display screen at the beginning of the way, note: displayed when IDelay 
+// when the first picture is refreshed by-pixel at this point you must manually 
+// refresh the end after adding LCD_WR_REG (0x0007,0x0173); to display
+// If not commented Immediately when this process is not needed
 //#define Delay //Display Delay//Immediately
 
-//硬件相关的子函数
+// Hardware-related Functions
 
 #define CS_TFT_H()   myGPIO_SetBits(GPIOD, 0);
 #define CS_TFT_L()   myGPIO_ResetBits(GPIOD, 0);
@@ -113,36 +114,36 @@
 void LCD_Configuration(void);
 
 /****************************************************************************
-* 名    称：u16 CheckController(void)
-* 功    能：返回控制器代码
-* 入口参数：无
-* 出口参数：控制器型号
-* 说    明：调用后返回兼容型号的控制器型号
-* 调用方法：code=CheckController();
+* Name: u16 CheckController (void)
+* Function: Returns the controller code
+* Entrance parameters: None
+* Export parameters: Controller Model
+* Description: Returns After calling the controller model compatible models
+* Call the method: code = CheckController ();
 ****************************************************************************/
 u16 CheckController(void);
 
 /**********************************************
-函数名：LCD初始化函数
-功能：初始化LCD
-入口参数：无
-返回值：无
+Function name: LCD initialization function
+Function: Initializes LCD
+Entrance parameters: None
+Return Value: None
 ***********************************************/
 void LCD_Initialize(void);
 
 /******************************************
-函数名：LCD写命令函数
-功能：向LCD指定位置写入应有命令或数据
-入口参数：Index 要寻址的寄存器地址
-          ConfigTemp 写入的数据或命令值
-返回值：无
+Function name: LCD write command function
+Function: write commands or data to the LCD should specify the location
+Entrance parameters: Index register address to be addressed
+           ConfigTemp written data or command value
+Return Value: None
 ******************************************/
 void LCD_WR_REG(u16 Index, u16 CongfigTemp);
 
-//带参数的命令写入
+// Write command with parameters
 void LCD_WR_CmdPar(u16 Index, u16 par);
 
-//不带参数的命令写入
+//Write command with no arguments
 void LCD_WR_Cmd(u16 cmd);
 
 void LCD_WR_DATA(u16 par);
@@ -150,63 +151,63 @@ void LCD_WR_DATA(u16 par);
   
 u16 LCD_Read(void);
 
-//读取LCD上 1个像素的颜色值
+//Reading the LCD 1 pixel color values
 u16 LCD_ReadPixel(u16 x, u16 y);
 
 /************************************************
-函数名：LCD写开始函数
-功能：控制LCD控制引脚 执行写操作
-入口参数：无
-返回值：无
+Function name: LCD write start function
+Function: Control LCD control pins to perform a write operation
+Entrance parameters: None
+Return Value: None
 ************************************************/
 void LCD_WR_Start(void);
 
 
 /****************************************************************
-函数名：LCD写1个8*16 ASCII字符函数
-入口参数：x,横向坐标，由左到右分别是0~240-1 
-          y,纵向坐标，由上到下分别为0~320-1
-          CharColaor,字符的颜色 
-          CharBackColor,字符背景颜色 
-         ASCIICode,相应字符的ASCII码
-也就是说，320240分辨率的显示屏，横向能显示30个ASCII字符，竖向能显示20行
-返回值：无
+Function name: LCD write an 8 * 16 ASCII characters function
+Entrance parameters: x, transverse coordinates, from left to right are from 0 to 240-1
+           y, longitudinal coordinates, from top to bottom, respectively, 0 to 320-1
+           Color CharColaor, characters
+           CharBackColor, character background color
+          ASCIICode, the corresponding ASCII character code
+That is to say, 320 240 resolution display, horizontal 30 ASCII characters can be displayed, can display 20 lines of vertical
+Return Value: None
 
-注意！！！！！如果单独使用此函数则应该加上LCD_Rs_H()和Set_Cs;为了优化系统省去了
-这个指令，假设此函数执行的上一条语句是写命令，（RS_L情况）则写入将出错
-，因为ILI9320认为当RS_L时写入的是命令
+Note! ! ! ! ! If you use this function alone should add LCD_Rs_H () and Set_Cs; To optimize the system eliminates the need for
+This directive, assuming a statement on the implementation of this function is to write commands, (RS_L case) is written to the error
+Because ILI9320 think when RS_L when writing the command
 *****************************************************************/
 void LCDWriteEN(u16 x, u16 y, u16 CharColor, u8 ASCIICode);
 
 void LCDWriteEN16(u16 x, u16 y, u8 ASCIICode, u16 CharColor, u16 bkColor);
 
 /****************************************************************
-函数名：LCD写1个16*16 汉字字符函数
-入口参数：x,横向坐标，由左到右分别是0~240-1 
-          y,纵向坐标，由上到下分别为0~320-1
-          CharColaor,字符的颜色 
-          CharBackColor,字符背景颜色 
-         ASCIICode,相应字符的ASCII码
-也就是说，320240分辨率的显示屏，横向能显示30个ASCII字符，竖向能显示20行
-返回值：无
+Function name: LCD write a 16 * 16 Chinese character function
+Entrance parameters: x, transverse coordinates, from left to right are from 0 to 240-1
+           y, longitudinal coordinates, from top to bottom, respectively, 0 to 320-1
+           Color CharColaor, characters
+           CharBackColor, character background color
+          ASCIICode, the corresponding ASCII character code
+That is to say, 320 240 resolution display, horizontal 30 ASCII characters can be displayed, can display 20 lines of vertical
+Return Value: None
 
-注意！！！！！如果单独使用此函数则应该加上LCD_Rs_H()和Set_Cs;为了优化系统省去了
-这个指令，假设此函数执行的上一条语句是写命令，（RS_L情况）则写入将出错
-，因为ILI9320认为当RS_L时写入的是命令
+Note! ! ! ! ! If you use this function alone should add LCD_Rs_H () and Set_Cs; To optimize the system eliminates the need for
+This directive, assuming a statement on the implementation of this function is to write commands, (RS_L case) is written to the error
+Because ILI9320 think when RS_L when writing the command
 *****************************************************************/
 void LCDWriteCN(u16 x, u16 y, u16 CharColor, u8 *p);
 
-//设置文字显示区域
+//Set the text display area
 void SetRectText(u16 x, u16 y, u16 w, u16 h);
 
 /************************************************************
-函数名：LCD写字符串函数
-功能：向指定位置写入一个或多个字符，本函数带自动换行功能
-入口参数：x,横向坐标，由左到右分别是0~29 
-          y,纵向坐标，由上到下分别为0~19
-          CharColaor,字符的颜色
-          *s 指向要写的字符串
-返回值：无
+Function name: LCD write String Functions
+Function: to write one or more characters to a specified location, this function with automatic wrap feature
+Entrance parameters: x, transverse coordinates, from left to right are from 0 to 29
+           y, longitudinal coordinates, from top to bottom, respectively, from 0 to 19
+           Color CharColaor, characters
+           * s point string to be written
+Return Value: None
 *************************************************************/
 void LCD_WriteString(uint16 x, uint16 y, uint16 CharColor, char* p, uint8 font);
 void LCD_WriteString16(uint16 x, uint16 y, uint16 CharColor, char* p);
@@ -214,22 +215,22 @@ void LCD_WriteString16(uint16 x, uint16 y, uint16 CharColor, char* p);
 void LCD_WriteString24(uint16 x, uint16 y, uint16 CharColor, char* p);
 
 /*********************************************************
-函数名：SPI取ASCII码子程序
-输入参数：u8 ASCII 输入的ASCII码，如'A'
-返回值：无
-说明：输入一个ASCII码，取得它在SPI FLASH中的16Byte显示代码
-并将其存放到一个16byte的ASCII显示缓冲CharBuffer[]中
+Function name: SPI take ASCII completely different program
+Input parameters: u8 ASCII ASCII code input, such as 'A'
+Return Value: None
+Description: Enter an ASCII code, get it 16Byte in SPI FLASH display code
+And store it into a 16byte the ASCII display buffer CharBuffer [] in
 **********************************************************/
 //void GetASCIICode(u8* buf, u8 ASCII);
 void GetASCIICode(u8* buf, u8 ASCII, u8 dot);
 
 /*********************************************************
-函数名：SPI中文显示码子程序
-输入参数：u16 ASCII 输入的中文，如"我"
-          BaseAddr 基地 即显示代码在FLASH中的起始位置
-返回值：无
-说明：输入一个中文，取得它在SPI FLASH中的32Byte显示代码
-并将其存放到一个32byte的显示缓冲ChineseBuffer[]
+Function name: SPI Chinese display completely different program
+Input parameters: u16 ASCII input of Chinese, such as "I"
+           BaseAddr base code is displayed in the starting position FLASH
+Return Value: None
+Description: Enter a Chinese made it 32Byte in SPI FLASH display code
+And store it into a display buffer 32byte ChineseBuffer []
 **********************************************************/
 void GetChineseCode(u8* dot, u8 *p);
 void GetChineseCode24(u8* dot, u8 *p);

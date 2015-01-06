@@ -13,12 +13,12 @@
 #define  Read_Flash_Page      HighSpeed_Read_MultiByte
 #define  Write_Flash_Page     ProgramVerify_MultiByte
 
-//开保护
+//On Protects
 void UnProtectSST25VF080(void);
 
 /************************************************************************
 Read_ID
-读厂商/器件ID
+Read vendor / device ID
 Input--ID_addr(A7~A1 =0)
      :Manufacturer’s ID is read with A0=0
      :Device ID is read with A0=1.
@@ -36,7 +36,7 @@ uint8 HighSpeed_Read_MultiByte( uint32 Address, uint16 n, uint8 *Buf );
 
 uint8 ProgramVerify_MultiByte( uint32 Address, uint16 n, uint8 *Buf );
 
-//如果写数据是扇区头自动擦除该扇区
+//If the write data is automatically erased the sector header
 uint8 Write_Flash_Page_FirstErase( uint32 Address, uint16 n, uint8 *Buf );
 
 uint8 Force_Write_Flash_Page( uint32 Address, uint16 n, uint8 *Buf );

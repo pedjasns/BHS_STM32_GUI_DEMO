@@ -1,77 +1,73 @@
 /******************************************************************************
-* 文件名称：ili932x.c
-* 摘 要：支持ILI9320和ILI9325驱动IC控制的QVGA显示屏，使用16位并行传输
-  到头文件中配置 屏幕使用方向和驱动IC类型
-  注意：16位数据线色彩分布>>  BGR(565)
+* File name: ili932x.c
+* Summary: Support ILI9320 and ILI9325 QVGA display driver IC control using 16 parallel transmission
+   Use the header file configuration screen orientation and driver IC type
+   Note: 16-bit color data cable distribution >> BGR (565)
 
-* 当前版本：V1.3
-* 修改说明：版本修订说明：
-  1.修改翻转模式下的ASCII字符写Bug
-  2.增加可以在翻转模式下的自动行写
-  3.优化刷图片 使用流水线方法提效率
-*重要说明！
-在.h文件中，#define Immediately时是立即显示当前画面
-而如果#define Delay，则只有在执行了LCD_WR_CmdPar(0x0007,0x0173);
-之后才会显示，执行一次LCD_WR_CmdPar(0x0007,0x0173)后，所有写入数
-据都立即显示。
-#define Delay一般用在开机画面的显示，防止显示出全屏图像的刷新
-过程
+* The current version: V1.3
+* Modify Description: Revision Description:
+   1. Modify the ASCII character to write Bug Flip Mode
+   2. Increase the automatic line can be written in inverted mode
+   3. Brush picture optimization method using the pipeline to mention efficiency
+* IMPORTANT!
+In the .h file, # define Immediately when the current screen is displayed immediately
+And if #define Delay, only in the implementation of the LCD_WR_CmdPar (0x0007,0x0173);
+Only after show after performing a LCD_WR_CmdPar (0x0007,0x0173), all writes
+It will appear immediately.
+#define Delay is generally used in the boot screen display, preventing the full screen image showing refresh
+Process
 ******************************************************************************/
 #include "..\APP\includes.h"
 
-
-
-
-
 /****************************************************************
-函数名：LCD配置函数
-功能：配置所有和LCD相关的GPIO和时钟
-引脚分配为：
-PE8--PE15——16Bit数据总线低8位
-PCE--PE7 ——16Bit数据总线高8位
+Function name: LCD configuration function
+Function: Set all the LCD-related GPIO and clock
+Pin assignments are:
+PE8--PE15——16Bit Data bus lower 8
+PCE--PE7 ——16Bit Data bus high 8
 PC8 ——LCD_cs
 PC9 ——LCD_rs*
 PC10——LCD_wr
 PC11——LCD_rd*
 PC12——LCD_rst
-PC13——LCD_blaklight 背光靠场效应管驱动背光模块
+PC13——LCD_blaklight Backlit by the FET drive the backlight module
 *****************************************************************/
 void LCD_Configuration(void)
 {
    GPIO_InitTypeDef GPIO_InitStructure;
-   /*开启相应时钟 */
+   /* Open the corresponding clock */
    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE, ENABLE);
-   /*所有LCD引脚配置为推挽输出*/
-   /*16位数据低8位*//*16位数据高8位*/
+   /* All LCD pin is configured as push-pull output */
+   /*16 Data low 8 * 16 * // data high 8 */
    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
 
    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
    GPIO_Init(GPIOE, &GPIO_InitStructure);
 
-   /*控制脚*/
+   /* Control pin */
    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4;
    GPIO_Init(GPIOD, &GPIO_InitStructure);
 
-   /*背光控制*/
+   /* Backlight control */
    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
    GPIO_Init(GPIOD, &GPIO_InitStructure);
 }
 
 /****************************************************************************
-* 名    称：u16 CheckController(void)
-* 功    能：返回控制器代码
-* 入口参数：无
-* 出口参数：控制器型号
-* 说    明：调用后返回兼容型号的控制器型号
-* 调用方法：code=CheckController();
+* Name: u16 CheckController (void)
+* Function: Returns the controller code
+* Entrance parameters: None
+** Export parameters: Controller Model
+* Description: Returns After calling the controller model compatible models
+* Call the method: code = CheckController ();
 ****************************************************************************/
 u16 CheckController(void)
 {
    u16 tmp = 0;//, tmp1 = 0, tmp2 = 0; 
    GPIO_InitTypeDef GPIO_InitStructure;
 
-   DataToWrite(0xffff);//数据线全高
+   DataToWrite(0xffff); // Full height data line
    RST_TFT_H();
    WR_TFT_H();
    CS_TFT_H();
@@ -111,17 +107,17 @@ u16 CheckController(void)
 }
 
 /**********************************************
-函数名：LCD初始化函数
-功能：初始化LCD
-入口参数：无
-返回值：无
+Function name: LCD initialization function
+Function: Initializes LCD
+Entrance parameters: None
+Return Value: None
 ***********************************************/
 void LCD_Initialize(void)
 {
    u16 i;
    
    LCD_Light_ON;
-   DataToWrite(0xffff);//数据线全高
+   DataToWrite(0xffff); // Full height data line
    RST_TFT_H();
    WR_TFT_H();
    CS_TFT_H();
@@ -137,7 +133,7 @@ void LCD_Initialize(void)
 
 
    i = CheckController();
-	//我买的屏返回不确定.lzt
+// I bought the screen returns uncertain .lzt
 	i=0x9325;
    if (i == 0x9325 || i == 0x9328)
    {
@@ -299,22 +295,22 @@ u16 LCD_ReadPixel(u16 x, u16 y)
     return(temp);
 }
 
-//画1个像素
+// Draw a pixel
 void DrawPixel(u16 x, u16 y, u16 Color)
 {
-   //LCD_WR_CmdPar(0x20, x);//起始X坐标
-   //LCD_WR_CmdPar(0x21, y);//起始Y坐标
+   //LCD_WR_CmdPar(0x20, x); // Starting X coordinate
+   //LCD_WR_CmdPar(0x21, y); // Starting Y coordinate
    
-   LCD_WR_CmdPar(0x20, y);//起始X坐标
-   LCD_WR_CmdPar(0x21, 320-1-x);//起始X坐标
+   LCD_WR_CmdPar(0x20, y);   // X coordinate of the starting
+   LCD_WR_CmdPar(0x21, 320-1-x); // X coordinate of the starting
    
-   LCD_WR_Cmd(0x0022);//开始读/写
+   LCD_WR_Cmd(0x0022); // Began to read / write
    
    LCD_WR_DATA(Color);
 }
 
 /*
-24*24阵列Y-->>X变换
+24 * 24 array Y - >> X Transformation
 [BYTE0]   [BYTE3].......
 D7        D7     
 D6        D6     
@@ -373,7 +369,7 @@ D7D6..D1D0  D7D6..D1D0  D7D6..D1D0
 //      if(iy==24)
 //      {
 //         iy=0;
-//         ix++;//iy变化24次ix才变化1次
+//         ix++;//iy ix only change 24 times a second change
 //      }
 //   }
 //   
@@ -381,7 +377,7 @@ D7D6..D1D0  D7D6..D1D0  D7D6..D1D0
 //}
 
 /*
-//将8*8 Y方向阵列做 X方向转换
+// The 8 * 8 Y direction of the array do X direction change
 void MODY8(uint8 * p)
 {
  uint8 buf[8];
@@ -403,14 +399,14 @@ void MODY8(uint8 * p)
    memcpy(p, buf, 8);
 }
 
-//将8*16 Y方向阵列做 X方向转换(用于8*16 ASCII)
+//The 8 * 16 Y direction of the array do X direction change (用于8*16 ASCII)
 void MODY16(uint8 * p)
 {
    MODY8(p);
    MODY8(p+8);
 }
 
-//将16*16 Y方向阵列做 X方向转换(主要用于16*16 汉字)
+//The 16 * 16 Y direction of the array do X direction change(Mainly used 16 * 16 characters)
 void MODY32(uint8 * p)
 {uint8 temp[16];
  //uint8 i;
@@ -463,18 +459,20 @@ void MODY32(uint8 * p)
 */
 
 /****************************************************************
-函数名：LCD写1个8*16 ASCII字符函数
-入口参数：x,横向坐标，由左到右分别是0~240-1 
-          y,纵向坐标，由上到下分别为0~320-1
-          CharColaor,字符的颜色 
-          CharBackColor,字符背景颜色 
-         ASCIICode,相应字符的ASCII码
-也就是说，320240分辨率的显示屏，横向能显示240/8个ASCII字符，竖向能显示20行
-返回值：无
+Function name: LCD write an 8 * 16 ASCII characters function
+Entrance parameters: x, transverse coordinates, from left to right are from 0 to 240-1
+           y, longitudinal coordinates, from top to bottom, respectively, 0 to 320-1
+           Color CharColaor, characters
+           CharBackColor, character background color
+          ASCIICode, the corresponding ASCII character code
+That is to say, 320 240 resolution display, horizontal 240/8 ASCII characters 
+can be displayed, can display 20 lines of vertical
+Return Value: None
 
-注意！！！！！如果单独使用此函数则应该加上LCD_Rs_H()和CS_TFT_H();为了优化系统省去了
-这个指令，假设此函数执行的上一条语句是写命令，（RS_L情况）则写入将出错
-，因为ILI9320认为当RS_L时写入的是命令
+Note! ! ! ! ! If you use this function alone should add LCD_Rs_H () and CS_TFT_H (); 
+In order to optimize the system eliminates the need for this directive, assuming a 
+statement on the implementation of this function is to write commands, (RS_L case) 
+is written to the error because ILI9320 think when RS_L when writing the command
 *****************************************************************/
 void LCDWriteEN(u16 x, u16 y, u16 CharColor, u8 ASCIICode)
 {
@@ -483,13 +481,13 @@ void LCDWriteEN(u16 x, u16 y, u16 CharColor, u8 ASCIICode)
  
  u16 ix, iy;
    
-   //GetASCIICode(buf, ASCIICode);//取这个字符的显示代码
-   GetASCIICode(buf, ASCIICode, 16);//取这个字符的显示代码
+   //GetASCIICode(buf, ASCIICode); // Take this character display code
+   GetASCIICode(buf, ASCIICode, 16); // Take this character display code
    pbuf = buf;
    
-   for(iy=0; iy<16; iy++)//写16行
+   for(iy=0; iy<16; iy++) // Write 16 lines
    {
-      for(ix=0; ix<8; ix++)//写1行中的8列
+      for(ix=0; ix<8; ix++) //Write a line of 8
       {
          if( isBit8(*pbuf, 7-ix)==0 )
          {
@@ -512,8 +510,8 @@ void LCDWriteEN16(u16 x, u16 y, u8 ASCIICode, u16 CharColor, u16 bkColor)
  
  u16 ix, iy;
    
-   //GetASCIICode(buf, ASCIICode);//取这个字符的显示代码
-   GetASCIICode(buf, ASCIICode, 16);//取这个字符的显示代码
+   //GetASCIICode(buf, ASCIICode); // Take this character display code
+   GetASCIICode(buf, ASCIICode, 16); // Take this character display code
    pbuf = buf;
    
    for(iy=0; iy<16; iy++)//写16行
@@ -535,18 +533,20 @@ void LCDWriteEN16(u16 x, u16 y, u8 ASCIICode, u16 CharColor, u16 bkColor)
 }
 
 /****************************************************************
-函数名：LCD写1个16*24 ASCII字符函数
-入口参数：x,横向坐标，由左到右分别是0~240-1 
-          y,纵向坐标，由上到下分别为0~320-1
-          CharColaor,字符的颜色 
-          CharBackColor,字符背景颜色 
-         ASCIICode,相应字符的ASCII码
-也就是说，320240分辨率的显示屏，横向能显示240/16个ASCII字符，竖向能显示20行
-返回值：无
+Function name: LCD write a 16 * 24 ASCII characters function
+Entrance parameters: x, transverse coordinates, from left to right are from 0 to 240-1
+           y, longitudinal coordinates, from top to bottom, respectively, 0 to 320-1
+           Color CharColaor, characters
+           CharBackColor, character background color
+          ASCIICode, the corresponding ASCII character code
+That is to say, 320 240 resolution display, horizontal 240/16 ASCII characters 
+can be displayed, can display 20 lines of vertical
+Return Value: None
 
-注意！！！！！如果单独使用此函数则应该加上LCD_Rs_H()和CS_TFT_H();为了优化系统省去了
-这个指令，假设此函数执行的上一条语句是写命令，（RS_L情况）则写入将出错
-，因为ILI9320认为当RS_L时写入的是命令
+Note! ! ! ! ! If you use this function alone should add LCD_Rs_H () and CS_TFT_H (); 
+In order to optimize the system eliminates the need for this directive, assuming a 
+statement on the implementation of this function is to write commands, (RS_L case) 
+is written to the error because ILI9320 think when RS_L when writing the command
 *****************************************************************/
 void LCDWriteEN24(u16 x, u16 y, u16 CharColor, u8 ASCIICode)
 {
@@ -555,13 +555,13 @@ void LCDWriteEN24(u16 x, u16 y, u16 CharColor, u8 ASCIICode)
  
  u16 ix, iy;
    
-   //GetASCIICode(buf, ASCIICode);//取这个字符的显示代码
-   GetASCIICode(buf, ASCIICode, 24);//取这个字符的显示代码
+   //GetASCIICode(buf, ASCIICode); // Take this character display code
+   GetASCIICode(buf, ASCIICode, 24); //Take this character display code
    pbuf = buf;
    
-   for(iy=0; iy<24; iy++)//写24行
+   for(iy=0; iy<24; iy++) // Write 24 lines
    {
-      for(ix=0; ix<8; ix++)//写1行中的8列
+      for(ix=0; ix<8; ix++) // Write a line of 8
       {
          if( isBit8(*pbuf, 7-ix)==0 )
          {
@@ -575,7 +575,7 @@ void LCDWriteEN24(u16 x, u16 y, u16 CharColor, u8 ASCIICode)
       
       pbuf++;
       
-      for(ix=0; ix<8; ix++)//写1行中的右8列
+      for(ix=0; ix<8; ix++) // Write a line right eight
       {
          if( isBit8(*pbuf, 7-ix)==0 )
          {
@@ -593,18 +593,20 @@ void LCDWriteEN24(u16 x, u16 y, u16 CharColor, u8 ASCIICode)
 }
 
 /****************************************************************
-函数名：LCD写1个16*16 汉字字符函数
-入口参数：x,横向坐标，由左到右分别是0~240-1 
-          y,纵向坐标，由上到下分别为0~320-1
-          CharColaor,字符的颜色 
-          CharBackColor,字符背景颜色 
-         ASCIICode,相应字符的ASCII码
-也就是说，320240分辨率的显示屏，横向能显示30个ASCII字符，竖向能显示20行
-返回值：无
+Function name: LCD write a 16 * 16 Chinese character function
+Entrance parameters: x, transverse coordinates, from left to right are from 0 to 240-1
+           y, longitudinal coordinates, from top to bottom, respectively, 0 to 320-1
+           Color CharColaor, characters
+           CharBackColor, character background color
+          ASCIICode, the corresponding ASCII character code
+That is to say, 320 240 resolution display, horizontal 30 ASCII 
+characters can be displayed, can display 20 lines of vertical
+Return Value: None
 
-注意！！！！！如果单独使用此函数则应该加上LCD_Rs_H()和CS_TFT_H();为了优化系统省去了
-这个指令，假设此函数执行的上一条语句是写命令，（RS_L情况）则写入将出错
-，因为ILI9320认为当RS_L时写入的是命令
+Note! ! ! ! ! If you use this function alone should add LCD_Rs_H() 
+and CS_TFT_H(); In order to optimize the system eliminates the need for this directive, 
+assuming a statement on the implementation of this function is to write commands, 
+(RS_L case) is written to the error because ILI9320 think when RS_L when writing the command
 *****************************************************************/
 void LCDWriteCN(u16 x, u16 y, u16 CharColor, u8 *p)
 {
@@ -613,12 +615,12 @@ void LCDWriteCN(u16 x, u16 y, u16 CharColor, u8 *p)
  
  u16 ix, iy;
    
-   GetChineseCode(buf, p);//取这个字符的显示代码
+   GetChineseCode(buf, p); // Take this character display code
    pbuf = buf;
    
-   for(iy=0; iy<16; iy++)//写16行
+   for(iy=0; iy<16; iy++) // Write 16 lines
    {
-      for(ix=0; ix<8; ix++)//写1行中的左8列
+      for(ix=0; ix<8; ix++) // Write a line left eight
       {
          if( isBit8(*pbuf, 7-ix)==0 )
          {
@@ -632,7 +634,7 @@ void LCDWriteCN(u16 x, u16 y, u16 CharColor, u8 *p)
       
       pbuf++;
       
-      for(ix=0; ix<8; ix++)//写1行中的右8列
+      for(ix=0; ix<8; ix++) // Write a line right eight
       {
          if( isBit8(*pbuf, 7-ix)==0 )
          {
@@ -650,18 +652,18 @@ void LCDWriteCN(u16 x, u16 y, u16 CharColor, u8 *p)
 }
 
 /****************************************************************
-函数名：LCD写1个16*16 汉字字符函数
-入口参数：x,横向坐标，由左到右分别是0~240-1 
-          y,纵向坐标，由上到下分别为0~320-1
-          CharColaor,字符的颜色 
-          CharBackColor,字符背景颜色 
-         ASCIICode,相应字符的ASCII码
-也就是说，320240分辨率的显示屏，横向能显示240/16个ASCII字符，竖向能显示20行
-返回值：无
+Function name: LCD write a 16 * 16 Chinese character function
+Entrance parameters: x, transverse coordinates, from left to right are from 0 to 240-1
+           y, longitudinal coordinates, from top to bottom, respectively, 0 to 320-1
+           Color CharColaor, characters
+           CharBackColor, character background color
+          ASCIICode, the corresponding ASCII character code
+That is to say, 320 240 resolution display, horizontal 240/16 ASCII characters can be displayed, can display 20 lines of vertical
+Return Value: None
 
-注意！！！！！如果单独使用此函数则应该加上LCD_Rs_H()和CS_TFT_H();为了优化系统省去了
-这个指令，假设此函数执行的上一条语句是写命令，（RS_L情况）则写入将出错
-，因为ILI9320认为当RS_L时写入的是命令
+Note! ! ! ! ! If you use this function alone should add LCD_Rs_H () and CS_TFT_H (); In order to optimize the system eliminates the need for
+This directive, assuming a statement on the implementation of this function is to write commands, (RS_L case) is written to the error
+Because ILI9320 think when RS_L when writing the command
 *****************************************************************/
 void LCDWriteCN24(u16 x, u16 y, u16 CharColor, u8 *p)
 {
@@ -670,13 +672,13 @@ void LCDWriteCN24(u16 x, u16 y, u16 CharColor, u8 *p)
  
  u16 ix, iy;
    
-   GetChineseCode24(buf, p);//取这个字符的显示代码
+   GetChineseCode24(buf, p); // Take this character display code
    //MODY24(buf);
    pbuf = buf;
    
-   for(iy=0; iy<24; iy++)//写24行
+   for(iy=0; iy<24; iy++) // Write 24 lines
    {
-      for(ix=0; ix<8; ix++)//写1行中的左8列
+      for(ix=0; ix<8; ix++) // Write a line left eight
       {
          if( isBit8(*pbuf, 7-ix)==0 )
          {
@@ -689,7 +691,7 @@ void LCDWriteCN24(u16 x, u16 y, u16 CharColor, u8 *p)
       }
       
       pbuf++;
-      for(ix=0; ix<8; ix++)//写1行中的中8列
+      for(ix=0; ix<8; ix++) // Write 1 line of 8
       {
          if( isBit8(*pbuf, 7-ix)==0 )
          {
@@ -702,7 +704,7 @@ void LCDWriteCN24(u16 x, u16 y, u16 CharColor, u8 *p)
       }
       
       pbuf++;
-      for(ix=0; ix<8; ix++)//写1行中的右8列
+      for(ix=0; ix<8; ix++) // Write 1 line right 8
       {
          if( isBit8(*pbuf, 7-ix)==0 )
          {
@@ -720,9 +722,9 @@ void LCDWriteCN24(u16 x, u16 y, u16 CharColor, u8 *p)
 }
 
 
-Rect RectText={0, 0, 240, 320};//文字显示区域
+Rect RectText={0, 0, 240, 320}; // Text display area
 
-//设置文字显示区域
+// Set the text display area
 void SetRectText(u16 x, u16 y, u16 w, u16 h)
 {
    RectText.x=x;
@@ -736,15 +738,15 @@ void SetRectText(u16 x, u16 y, u16 w, u16 h)
 #define START_X     RectText.x
 #define START_Y     RectText.y
 /************************************************************
-函数名：LCD写字符串函数8*16ASCII,16*16汉字
-功能：向指定位置写入一个或多个字符，本函数带自动换行功能
-入口参数：x,横向坐标，由左到右分别是0~240-1 
-          y,纵向坐标，由上到下分别为0~320-1
-          CharColaor,字符的颜色
-          *p 指向要写的字符串
-返回值：无
+Function name: LCD write string functions 8 * 16ASCII, 16 * 16 characters
+Function: to write one or more characters to a specified location, this function with automatic wrap feature
+Entrance parameters: x, transverse coordinates, from left to right are from 0 to 240-1
+           y, longitudinal coordinates, from top to bottom, respectively, 0 to 320-1
+           Color CharColaor, characters
+           * p points to write a string
+Return Value: None
 
-增加显示区域判断，所以使用是应该先设置显示区域
+Increasing the display area to judge, so it should be set up to use the display area
 *************************************************************/
 void LCD_WriteString16(uint16 x, uint16 y, uint16 CharColor, char* p)
 {
@@ -752,24 +754,24 @@ void LCD_WriteString16(uint16 x, uint16 y, uint16 CharColor, char* p)
    
    for(;*p!=0;p++)
    {
-      if(( (u8)*p&0x80)==0)//英文
+      if(( (u8)*p&0x80)==0)//English
       {
-         if(*p=='\r')//回车
+         if(*p=='\r')//Enter
          {
             x=START_X;
             continue;
          }
-         if(*p=='\n')//换行
+         if(*p=='\n')//Wrap
          {
             y+=16;
-            if(y > RECT_YMAX-16)//超过行显示
+            if(y > RECT_YMAX-16)//Over line display
                y=START_Y;
             continue;
          }
 
          dat=*p-0x20;  
          
-         if(x > RECT_XMAX-8)//不够写1个字符就移到下一行
+         if(x > RECT_XMAX-8) // Enough to write a character to move to the next line
          {
             x=START_X;
            
@@ -780,9 +782,9 @@ void LCD_WriteString16(uint16 x, uint16 y, uint16 CharColor, char* p)
          LCDWriteEN(x, y, CharColor, dat);
          x+=8;
       }
-      else//中文
+      else //Chinese
       {
-         if(x > RECT_XMAX-16)//不够写1个字符就移到下一行
+         if(x > RECT_XMAX-16) // Enough to write a character to move to the next line
          {
             x=START_X;
            
@@ -796,21 +798,21 @@ void LCD_WriteString16(uint16 x, uint16 y, uint16 CharColor, char* p)
       }
    }
 }
-//下面的是没有显示区域判断
+// The following is not a display area is determined
 
 //{
 // u8 dat;
 //   
 //   for(;*p!=0;p++)
 //   {
-//      if((*p&0x80)==0)//英文
+//      if((*p&0x80)==0)//English
 //      {
-//         if(*p=='\r')//回车
+//         if(*p=='\r')//Enter
 //         {
 //            x=0;
 //            continue;
 //         }
-//         if(*p=='\n')//换行
+//         if(*p=='\n')//Wrap
 //         {
 //            y+=16;
 //            if(y > YMAX-16)
@@ -820,7 +822,7 @@ void LCD_WriteString16(uint16 x, uint16 y, uint16 CharColor, char* p)
 //
 //         dat=*p-0x20;  
 //         
-//         if(x > XMAX-8)//不够写1个字符就移到下一行
+//         if(x > XMAX-8) // Enough to write a character to move to the next line
 //         {
 //            x=0;
 //           
@@ -833,7 +835,7 @@ void LCD_WriteString16(uint16 x, uint16 y, uint16 CharColor, char* p)
 //      }
 //      else//中文
 //      {
-//         if(x > XMAX-16)//不够写1个字符就移到下一行
+//         if(x > XMAX-16) // Enough to write a character to move to the next line
 //         {
 //            x=0;
 //           
@@ -858,13 +860,13 @@ void LCD_WriteString(uint16 x, uint16 y, uint16 CharColor, char* p, uint8 font)
 }
 
 /************************************************************
-函数名：LCD写字符串函数16*24ASCII,24*24汉字
-功能：向指定位置写入一个或多个字符，本函数带自动换行功能
-入口参数：x,横向坐标，由左到右分别是0~240-1 
-          y,纵向坐标，由上到下分别为0~320-1
-          CharColaor,字符的颜色
-          *p 指向要写的字符串
-返回值：无
+Function name: LCD write string function 16 * 24ASCII, 24 * 24 characters
+Function: to write one or more characters to a specified location, this function with automatic wrap feature
+Entrance parameters: x, transverse coordinates, from left to right are from 0 to 240-1
+           y, longitudinal coordinates, from top to bottom, respectively, 0 to 320-1
+           Color CharColaor, characters
+           * p points to write a string
+Return Value: None
 *************************************************************/
 void LCD_WriteString24(uint16 x, uint16 y, uint16 CharColor, char* p)
 {
@@ -872,44 +874,44 @@ void LCD_WriteString24(uint16 x, uint16 y, uint16 CharColor, char* p)
    
    for(; *p!=0; p++)
    {
-      if(( (u8)*p&0x80)==0)//英文
+      if(( (u8)*p&0x80)==0)//English
       {
-         if(*p=='\r')//回车
-         {
+         if(*p=='\r') //Enter
+		 {
             x=START_X;
             continue;
          }
-         else if(*p=='\n')//换行
+         else if(*p=='\n') //wrap
          {
             y+=24;
             if(y > RECT_YMAX-24)
                y=START_Y;
             continue;
          }
-         else if(*p=='\1')         //自定义图标.上
+         else if(*p=='\1')    // Custom icon. On
             dat='~'-' '+1;
-         else if(*p=='\2')    //自定义图标.下
+         else if(*p=='\2')    // Custom icon next
             dat='~'-' '+2;
-         else if(*p=='\3')    //自定义图标.左
+         else if(*p=='\3')    // Custom icon. Left
             dat='~'-' '+3;
-         else if(*p=='\4')    //自定义图标.右
+         else if(*p=='\4')    // Custom icon. Right
             dat='~'-' '+4;
-//         else if(*p=='\\')    //自定义图标
+//         else if(*p=='\\')  // Custom Icons
 //         {
 //            p++;
-//            if(*p=='U')         //自定义图标.上
+//            if(*p=='U')         // Custom icon. On
 //               dat='~'-' '+1;
-//            else if(*p=='D')    //自定义图标.下
+//            else if(*p=='D')    // Custom icon next
 //               dat='~'-' '+2;
-//            else if(*p=='L')    //自定义图标.左
+//            else if(*p=='L')    // Custom icon. Left
 //               dat='~'-' '+3;
-//            else// if(*p=='R')    //自定义图标.右
+//            else// if(*p=='R')  // Custom icon. Right
 //               dat='~'-' '+4;
 //         }
-         else //其它正常字符
+         else //Other regular characters
             dat=*p-0x20;  
          
-         if(x > RECT_XMAX-16)//不够写1个字符就移到下一行
+         if(x > RECT_XMAX-16) // Enough to write a character to move to the next line
          {
             x=START_X;
            
@@ -920,9 +922,9 @@ void LCD_WriteString24(uint16 x, uint16 y, uint16 CharColor, char* p)
          LCDWriteEN24(x, y, CharColor, dat);
          x+=16;
       }
-      else//中文
+      else // Chinese
       {
-         if(x > RECT_XMAX-24)//不够写1个字符就移到下一行
+         if(x > RECT_XMAX-24) //Enough to write a character to move to the next line
          {
             x=START_X;
            
@@ -938,21 +940,21 @@ void LCD_WriteString24(uint16 x, uint16 y, uint16 CharColor, char* p)
 }
 
 
-//下面的是没有显示区域判断
+//The following is not a display area is determined
 
 //{
 // u8 dat;
 //   
 //   for(;*p!=0;p++)
 //   {
-//      if((*p&0x80)==0)//英文
+//      if((*p&0x80)==0) //English		
 //      {
-//         if(*p=='\r')//回车
+//         if(*p=='\r') // Enter
 //         {
 //            x=0;
 //            continue;
 //         }
-//         if(*p=='\n')//换行
+//         if(*p=='\n') // wrap
 //         {
 //            y+=24;
 //            if(y > YMAX-24)
@@ -962,7 +964,7 @@ void LCD_WriteString24(uint16 x, uint16 y, uint16 CharColor, char* p)
 //
 //         dat=*p-0x20;  
 //         
-//         if(x > XMAX-16)//不够写1个字符就移到下一行
+//         if(x > XMAX-16) // Enough to write a character to move to the next line
 //         {
 //            x=0;
 //           
@@ -975,7 +977,7 @@ void LCD_WriteString24(uint16 x, uint16 y, uint16 CharColor, char* p)
 //      }
 //      else//中文
 //      {
-//         if(x > XMAX-24)//不够写1个字符就移到下一行
+//         if(x > XMAX-24) //Enough to write a character to move to the next line
 //         {
 //            x=0;
 //           
@@ -991,12 +993,12 @@ void LCD_WriteString24(uint16 x, uint16 y, uint16 CharColor, char* p)
 //}
 
 /*********************************************************
-函数名：SPI取ASCII码子程序
-输入参数：u8 ASCII 输入的ASCII码，如'A'
-          BaseAddr 基址 即ASCII显示代码在FLASH中的启示位置
-返回值：无
-说明：输入一个ASCII码，取得它在SPI FLASH中的16Byte显示代码
-并将其存放到一个16byte的ASCII显示缓冲CharBuffer[]中
+Function name: SPI take ASCII completely different program
+Input parameters: u8 ASCII ASCII code input, such as 'A'
+           BaseAddr base address that is displayed ASCII code in FLASH revelation location
+Return Value: None
+Description: Enter an ASCII code, get it 16Byte in SPI FLASH display code
+And store it into a 16byte the ASCII display buffer CharBuffer [] in
 **********************************************************/
 //void GetASCIICode(u8* buf, u8 ASCII)
 void GetASCIICode(u8* buf, u8 ASCII, u8 dot)
@@ -1015,12 +1017,12 @@ void GetASCIICode(u8* buf, u8 ASCII, u8 dot)
 }
 
 /*********************************************************
-函数名：SPI中文显示码子程序
-输入参数：u16 ASCII 输入的中文，如"我"
-          BaseAddr 基地 即显示代码在FLASH中的起始位置
-返回值：无
-说明：输入一个中文，取得它在SPI FLASH中的32Byte显示代码
-并将其存放到一个32byte的显示缓冲ChineseBuffer[]
+Function name: SPI Chinese display completely different program
+Input parameters: u16 ASCII input of Chinese, such as "I"
+           BaseAddr base code is displayed in the starting position FLASH
+Return Value: None
+Description: Enter a Chinese made it 32Byte in SPI FLASH display code
+And store it into a display buffer 32byte ChineseBuffer []
 **********************************************************/
 void GetChineseCode(u8* dot, u8 *p)
 {//uchar m;
@@ -1034,12 +1036,12 @@ void GetChineseCode(u8* dot, u8 *p)
 }
 
 /*********************************************************
-函数名：SPI中文显示码子程序
-输入参数：u16 ASCII 输入的中文，如"我"
-          BaseAddr 基地 即显示代码在FLASH中的起始位置
-返回值：无
-说明：输入一个中文，取得它在SPI FLASH中的32Byte显示代码
-并将其存放到一个32byte的显示缓冲ChineseBuffer[]
+Function name: SPI Chinese display completely different program
+Input parameters: u16 ASCII input of Chinese, such as "I"
+           BaseAddr base code is displayed in the starting position FLASH
+Return Value: None
+Description: Enter a Chinese made it 32Byte in SPI FLASH display code
+And store it into a display buffer 32byte ChineseBuffer []
 **********************************************************/
 void GetChineseCode24(u8* dot, u8 *p)
 {//uchar m;

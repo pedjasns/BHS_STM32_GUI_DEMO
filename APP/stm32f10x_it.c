@@ -27,9 +27,6 @@
 //static vu32 Index = 0;
 //static vu32 AlarmStatus = 0;
 
-
-
-
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -150,13 +147,16 @@ void SysTickHandler(void)
    OS_CPU_SR  cpu_sr;
 
 
-    OS_ENTER_CRITICAL();  //保存全局中断标志,关总中断/* Tell uC/OS-II that we are starting an ISR*/
+    OS_ENTER_CRITICAL(); //Save Global interrupt flag off the total interruption 
+						 /* Tell uC/OS-II that we are starting an ISR*/
     OSIntNesting++;
-    OS_EXIT_CRITICAL();	  //恢复全局中断标志
+    OS_EXIT_CRITICAL();	 //Restore global interrupt flag
 
-    OSTimeTick();     /* Call uC/OS-II's OSTimeTick(),在os_core.c文件里定义,主要判断延时的任务是否计时到*/
+    OSTimeTick(); 		 /* Call uC/OS-II's OSTimeTick(), os_core.c defined in the document,
+						 if the main task of counting to determine the delay*/
 
-    OSIntExit();  //在os_core.c文件里定义,如果有更高优先级的任务就绪了,则执行一次任务切换            
+    OSIntExit();  		/* In os_core.c file definition, if there is a higher priority task ready, 
+						and then perform a task switch */
 }
 
 /*******************************************************************************

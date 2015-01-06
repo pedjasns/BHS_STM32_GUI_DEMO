@@ -1,16 +1,16 @@
 /*
-*********************************************************************************************************
-*                                                uC/GUI
-*                        Universal graphic software for embedded applications
+**********************************************************************
+* 					          uC/GUI
+*	Universal graphic software for embedded applications
 *
-*                       (c) Copyright 2002, Micrium Inc., Weston, FL
-*                       (c) Copyright 2002, SEGGER Microcontroller Systeme GmbH
+*   (c) Copyright 2002, Micrium Inc., Weston, FL
+*   (c) Copyright 2002, SEGGER Microcontroller Systeme GmbH
 *
-*              µC/GUI is protected by international copyright laws. Knowledge of the
-*              source code may not be used to write a similar product. This file may
-*              only be used in accordance with a license and should not be redistributed
-*              in any way. We appreciate your understanding and fairness.
-*
+*   µC/GUI is protected by international copyright laws. Knowledge 
+*	of the source code may not be used to write a similar product. 
+*   This file may only be used in accordance with a license and should
+*   not be redistributed in any way. We appreciate your understanding 
+*	and fairness.
 ----------------------------------------------------------------------
 File        : LCD_ConfDefaults.h
 Purpose     : Valid LCD configuration and defaults
@@ -20,8 +20,8 @@ Purpose     : Valid LCD configuration and defaults
 #ifndef LCD_CONFIG_DEFAULTS_H
 #define LCD_CONFIG_DEFAULTS_H
 
-#include  "..\uCGUIConfig\LCDConf.h"            /* Configuration header file */
-#include "GUI_ConfDefaults.h"   /* Needed for GUI_NUM_LAYERS */
+#include  "..\uCGUIConfig\LCDConf.h"   /* Configuration header file */
+#include "GUI_ConfDefaults.h"   	   /* Needed for GUI_NUM_LAYERS */
 /*********************************************************************
 *
 *      Map the defines for this controller
@@ -729,8 +729,6 @@ Purpose     : Valid LCD configuration and defaults
   #endif
 #endif   /* GUI_NUM_LAYERS > 4 */
 
-
-
 /*********************************************************************
 *
 *      Global defaults for all displays
@@ -738,19 +736,10 @@ Purpose     : Valid LCD configuration and defaults
 **********************************************************************
 */
 
-
 #if (LCD_BITSPERPIXEL <= 8) && (GUI_NUM_LAYERS < 2)
   #define LCD_PIXELINDEX U8
 #else
   #define LCD_PIXELINDEX U16
 #endif
 
-
-
-
-
 #endif /* LCD_INTERN_H */
-
-
-
-

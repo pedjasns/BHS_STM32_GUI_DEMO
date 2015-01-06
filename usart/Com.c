@@ -1,15 +1,15 @@
 #include "..\APP\includes.h"
 //#include "include.h"
 /**************************************************************************************
-* 变量原型:
-* 变量说明:    
-**************************************************************************************/
-/**************************************************************************************
-* 函数原型:
-* 函数功能:
-* 输入参数:
-* 输出参数:
-* 函数说明:
+* Variable Prototype:
+* Variable Description:
+************************************************** ************************************ /
+/ ************************************************* *************************************
+* Prototype:
+* Function:
+* Input parameters:
+* Output parameters:
+* Function Description:
 **************************************************************************************/
 
 #ifdef __GNUC__ 
@@ -77,9 +77,11 @@ void USART1_InitConfig(uint32 BaudRate)
   USART_Init(USART1, &USART_InitStructure);
   /* Enable USART1 Receive and Transmit interrupts */
   //USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
-  //USART_ITConfig(USART1, USART_IT_TXE, ENABLE);//发送时才打开
+  //USART_ITConfig(USART1, USART_IT_TXE, ENABLE); // Send only open
   /* Enable the USART1 */
-  USART_Cmd(USART1, ENABLE);//仿真看到执行这里，TC标志居然被设置为1了，不知道实际在flash中运行是否是这样
+  USART_Cmd(USART1, ENABLE); 
+  /* See the implementation of the simulation here, TC flag is set to 1 actually, 
+  I do not know whether the actual operation is in flash */
   
 //  USART1->SR &= ~USART_FLAG_TXE;     // clear interrupt
 //  USART1->SR &= ~USART_FLAG_TC;     // clear interrupt

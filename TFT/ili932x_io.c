@@ -5,11 +5,11 @@
 
 
 ///******************************************
-//函数名：LCD写命令函数
-//功能：向LCD指定位置写入应有命令或数据
-//入口参数：Index 要寻址的寄存器地址
-//          ConfigTemp 写入的数据或命令值
-//返回值：无
+// Function name: LCD write command function
+// Function: write commands or data to the LCD should specify the location
+// Entrance parameters: Index register address to be addressed
+// Data or write command value ConfigTemp
+// Return Value: None
 //******************************************/
 //void LCD_WR_REG(u16 Index, u16 CongfigTemp)
 //{
@@ -31,10 +31,10 @@
 //
 //
 ///************************************************
-//函数名：LCD写开始函数
-//功能：控制LCD控制引脚 执行写操作
-//入口参数：无
-//返回值：无
+// Function name: LCD write start function
+// Function: Control LCD control pins to perform a write operation
+// Entrance parameters: None
+// Return Value: None
 //************************************************/
 //void LCD_WR_Start(void)
 //{
@@ -48,7 +48,7 @@
 //   RS_TFT_H();
 //}
 
-//带参数的命令写入
+//Write command with parameters
 void LCD_WR_CmdPar(u16 Index, u16 par)
 {
    CS_TFT_L();
@@ -67,7 +67,7 @@ void LCD_WR_CmdPar(u16 Index, u16 par)
    CS_TFT_H();
 }
 
-//不带参数的命令写入
+// Write command with no arguments
 void LCD_WR_Cmd(u16 cmd)
 {
    CS_TFT_L();
@@ -101,7 +101,7 @@ u16 LCD_Read(void)
    CS_TFT_L();
    SET_DATA_IN();
    
-   //虚读1次
+   // Virtual Reading 1
    RD_TFT_L();
    temp=(u16)GPIOE->IDR;
    RD_TFT_H();
@@ -117,7 +117,7 @@ u16 LCD_Read(void)
    return(temp);
 }
 
-//读取LCD上 1个像素的颜色值
+//Reading the LCD 1 pixel color values
 //u16 LCD_ReadPixel(u16 x, u16 y)
 //{u16 temp;
 //   

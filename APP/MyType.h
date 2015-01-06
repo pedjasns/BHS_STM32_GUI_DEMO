@@ -2,34 +2,34 @@
 #define _MYTYPE_H
 
 
-//常用变量类型定义
+// Common variable type definition
 typedef unsigned char   tByte;
 typedef unsigned int    tWord;
 
 
 
 typedef unsigned char   uchar;
-typedef unsigned int    uint;//int有的CPU是32位
+typedef unsigned int    uint;   // int some CPU is 32
 typedef unsigned long   ulong;
 
 #ifndef   BOOL
  //typedef unsigned char 	BOOL;
 #endif
 
-#define	int8            signed char
-#define	int16           signed short
-#define	int32           signed long
-#define	uint8           unsigned char
-#define	uint16          unsigned short
-#define	uint32          unsigned long
+#define	int8	signed char
+#define	int16	signed short
+#define	int32   signed long
+#define	uint8   unsigned char
+#define	uint16  unsigned short
+#define	uint32  unsigned long
 
-#define	u8           unsigned char
-#define	u16          unsigned short
-#define	u32          unsigned long
+#define	u8		unsigned char
+#define	u16     unsigned short
+#define	u32     unsigned long
 
-#define	U8           unsigned char
-#define	U16          unsigned short
-#define	U32          unsigned long
+#define	U8      unsigned char
+#define	U16     unsigned short
+#define	U32     unsigned long
 
 typedef unsigned char BOOLEAN;
 typedef unsigned char INT8U;      /* Unsigned  8 bit quantity         */
@@ -56,40 +56,36 @@ typedef void (*pFUNparU16)(uint16);
 typedef uint8 (*pU8FUN)(void);
 
 //typedef unsigned char OS_STK;       /* Each stack entry is 8-bit wide      */
-//typedef INT16U             OS_FLAGS;   /* Date type for event flag bits (8, 16 or 32 bits)             */
+//typedef INT16U OS_FLAGS;   /* Date type for event flag bits (8, 16 or 32 bits)             */
 
-
-
-#define SetBit(Value,Bit)  ( Value |= (0x01<<Bit) )     //Bit(0~7)//一定要用()
+#define SetBit(Value,Bit)  ( Value |= (0x01<<Bit) )     //Bit(0~7) Must use ()
 #define ClrBit(Value,Bit)  ( Value &= (~(0x01<<Bit)) )
 
-#define SetBit32(Value,Bit)  ( Value |= (1UL<<Bit) )     //Bit(0~31)//一定要用()
+#define SetBit32(Value,Bit)  ( Value |= (1UL<<Bit) )     //Bit(0~31) //Must use ()
 #define ClrBit32(Value,Bit)  ( Value &= (~(1UL<<Bit)) )
-
 
 #define BIT(n)             ( (uint8)((uint8)1<<n) )    //n(0~7)
 #define BIT8(n)            ( (uint8)((uint8)1<<n) )    //n(0~7)
 #define BIT16(n)           (  (uint16)((uint16)1<<n) )   //n(0~31)
 #define BIT32(n)           (  (uint32)((uint32)1UL<<n) )   //n(0~31) 
 
-
-//测试某位是否为1，为1返回1，为0返回为0
+// Test whether someone is 1, is a return to 1 value of 0 is returned to 0
 #define	isBit(dat, n)    ((dat&BIT8(n)) ? 1: 0)//0~7
 #define isBit8(dat, n)   ((dat&BIT8(n)) ? 1: 0)//0~7
 
-//测试某位是否为1，为1返回1，为0返回为0
+// Test whether someone is 1, is 1 return to 1 value of 0 is returned to 0
 #define	isBit16(dat, n)  ((dat&BIT16(n)) ? 1: 0)//0~15
 
 #define	isBit32(dat, n)  ((dat&BIT32(n)) ? 1: 0)//0~31
 
-//从16位数据拷贝到8位数据，高字节在前
+// Copy the data from the 16 to the 8-bit data, the high byte first
 #define cpyU8fU16(U8dat, U16dat)     \
 {                                    \
    *((uint8 *)(U8dat+0))=U16dat>>8;  \
    *((uint8 *)(U8dat+1))=U16dat;     \
 }
 
-//从32位数据拷贝到8位数据，高字节在前
+// Copy the data from the 32 to the 8-bit data, the high byte first
 #define cpyU8fU32(U8dat, U32dat)     \
 {                                    \
    *((uint8 *)U8dat)=(uint8)(U32dat>>24);     \
@@ -98,7 +94,7 @@ typedef uint8 (*pU8FUN)(void);
    *((uint8 *)(U8dat+3))=(uint8)U32dat;     \
 }
 
-//从8位数据拷贝到16位数据，高字节在前
+// Copy the data from the 8 to 16-bit data, the high byte first
 #define cpyU16fU8(U16dat, U8dat)     \
 {                                    \
    U16dat = *((uint8 *)U8dat);       \
@@ -106,7 +102,7 @@ typedef uint8 (*pU8FUN)(void);
    U16dat += *((uint8 *)(U8dat+1));  \
 }
 
-//从8位数据拷贝到32位数据，高字节在前
+// Copy the data from the 8 to 32-bit data, the high byte first
 #define cpyU32fU8(U32dat, U8dat)     \
 {                                    \
    U32dat = *((uint8 *)U8dat);       \
@@ -118,11 +114,10 @@ typedef uint8 (*pU8FUN)(void);
    U32dat += *((uint8 *)(U8dat+3));  \
 }
 
-
 //  Intel && AMD
 #define  LITTLE_ENDIAN 1
 
- // 字节序
+// Byte order
 #if defined(BIG_ENDIAN) && !defined(LITTLE_ENDIAN)
 
    #define htons(A)   (A)
@@ -145,7 +140,7 @@ typedef uint8 (*pU8FUN)(void);
 
    #error "Either BIG_ENDIAN or LITTLE_ENDIAN must be #defined, but not both."
    
-   int checkCPUendian()  //检查处理器是big-endian还是little-endian
+   int checkCPUendian()  // Check the processor is big-endian or little-endian
    {
       union 
       {
@@ -157,12 +152,6 @@ typedef uint8 (*pU8FUN)(void);
    }  /*return 1 : little-endian, return 0:big-endian*/
 #endif
 
-
-
-
 #include "BinType.h"
-
-
-
 
 #endif

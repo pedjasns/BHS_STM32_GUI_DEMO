@@ -21,11 +21,11 @@ void LCD_L0_On(void)
 }
 
 /*----------------------------------------------------------------------
-x0: 线 端点0 X坐标  
-y0: 线 端点0 Y坐标  
-x1: 线 端点1 X坐标  
-y1: 线 端点1 Y坐标  
-color: 填充颜色
+x0: 0 X coordinate of the line end
+y0: Endpoint 0 Y coordinate line
+x1: Line 1 X coordinate of the endpoint
+y1: line 1 Y coordinate of the endpoint
+color: Fill Color
 ----------------------------------------------------------------------*/
 
 //void GUI_Line(u16 x0, u16 y0, u16 x1, u16 y1,u16 color)
@@ -73,25 +73,25 @@ void LCD_L0_XorPixel(int x, int y)
 }
 
 /*----------------------------------------------------------------------
-调用该成员函数用指定的固体色填充矩形
-x: 矩形左上角的X逻辑坐标。  
-y: 矩形左上角的Y逻辑坐标。  
-Width: 指定矩形的宽度。  
-Height: 指定矩形的高度。  
-Color: 填充颜色
+Call this member function with the specified solid color filled rectangle
+x: X-left corner of the rectangle in logical coordinates.
+y: Y upper left corner of the rectangle in logical coordinates.
+Width: Specifies the width of the rectangle.
+Height: Specifies the height of the rectangle.
+Color: Fill Color
 ----------------------------------------------------------------------*/
 //void FillSolidRect(u16 x, u16 y, u16 Width, u16 Height,  COLOR Color)
 //{uint32 i;
 //   
-//   LCD_WR_CmdPar(0x20, x);//起始X坐标
-//   LCD_WR_CmdPar(0x21, y);//起始Y坐标
+//   LCD_WR_CmdPar(0x20, x);// X coordinate of the starting
+//   LCD_WR_CmdPar(0x21, y);// Y coordinate of the start
 //   
-//   LCD_WR_CmdPar(0x0050, x);//水平 GRAM起始位置
-//   LCD_WR_CmdPar(0x0051, x+Width-1);//水平GRAM终止位置
-//   LCD_WR_CmdPar(0x0052, y);//垂直GRAM起始位置
-//   LCD_WR_CmdPar(0x0053, y+Height-1);//垂直GRAM终止位置   
+//   LCD_WR_CmdPar(0x0050, x);// GRAM horizontal starting position
+//   LCD_WR_CmdPar(0x0051, x+Width-1);// GRAM horizontal end position
+//   LCD_WR_CmdPar(0x0052, y);// Vertical starting position GRAM
+//   LCD_WR_CmdPar(0x0053, y+Height-1);//GRAM vertical end position  
 //   
-//   LCD_WR_Cmd(0x0022);//开始读/写
+//   LCD_WR_Cmd(0x0022);//Began to read / write
 //   
 //   for(i=0; i<(u32)Width*Height; i++)
 //   {

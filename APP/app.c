@@ -14,12 +14,12 @@
 /*
 *********************************************************************************************************
 QQ: 958664258
-21IC用户名：banhushui
-交流平台：http://blog.21ic.com/user1/5817/index.html
-淘宝店铺：http://shop58559908.taobao.com
-旺旺：半壶水电子
-编译器版本：MDK3.5
-硬件平台：BHS-STM32--->
+21IC Username: banhushui
+Platform: http://blog.21ic.com/user1/5817/index.html
+Taobao shop: http: //shop58559908.taobao.com
+Want: Banhu water Electronics
+Compiler Version: MDK3.5
+Hardware platform: BHS-STM32 --->
 http://item.taobao.com/auction/item_detail-db2-a29ff4d34829cbddeffe864fc1741d21.jhtml
 *********************************************************************************************************
 */

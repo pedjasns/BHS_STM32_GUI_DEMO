@@ -1,16 +1,16 @@
 /*
-*********************************************************************************************************
-*                                                uC/GUI
-*                        Universal graphic software for embedded applications
+**********************************************************************
+*                           uC/GUI
+*   Universal graphic software for embedded applications
 *
-*                       (c) Copyright 2002, Micrium Inc., Weston, FL
-*                       (c) Copyright 2002, SEGGER Microcontroller Systeme GmbH
+*   (c) Copyright 2002, Micrium Inc., Weston, FL
+*   (c) Copyright 2002, SEGGER Microcontroller Systeme GmbH
 *
-*              µC/GUI is protected by international copyright laws. Knowledge of the
-*              source code may not be used to write a similar product. This file may
-*              only be used in accordance with a license and should not be redistributed
-*              in any way. We appreciate your understanding and fairness.
-*
+*	µC/GUI is protected by international copyright laws. Knowledge
+*  	of the source code may not be used to write a similar product. 
+*  	This file may only be used in accordance with a license and 
+*  	should not be redistributed in any way. We appreciate your 
+*	understanding and fairness.
 ----------------------------------------------------------------------
 File        : GUIType.h
 Purpose     : Include file define the types used for GUI
@@ -50,7 +50,7 @@ typedef LCD_DRAWMODE    GUI_DRAWMODE;
 typedef LCD_RECT        GUI_RECT;
 
 typedef struct {
-  void      (* pfDraw)(int x0,int y0,int xsize, int ysize, const U8 GUI_UNI_PTR * pPixel, const LCD_LOGPALETTE GUI_UNI_PTR * pLogPal, int xMag, int yMag);
+  void (* pfDraw)(int x0,int y0,int xsize, int ysize, const U8 GUI_UNI_PTR * pPixel, const LCD_LOGPALETTE GUI_UNI_PTR * pLogPal, int xMag, int yMag);
   GUI_COLOR (* pfIndex2Color)(int Index);
 } GUI_BITMAP_METHODS;
 

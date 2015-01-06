@@ -333,10 +333,8 @@ int getDisplayPoint( POINT * displayPtr,
 {
     int  retValue = OK ;
 
-
     if ( matrixPtr->Divider != 0 )
     {
-
         /* Operation order is important since we are doing integer */
         /*  math. Make sure you add all terms together before      */
         /*  dividing, so that the remainder is not rounded off     */
@@ -365,23 +363,23 @@ int getDisplayPoint( POINT * displayPtr,
 http://www.ourdev.cn/bbs/bbs_content.jsp?xcfrom=302&bbs_sn=3493809&bbs_page_no=1&bbs_id=1000
 http://www.poweravr.com/?action-viewthread-tid-231
 http://blog.sina.com.cn/s/blog_5d9051c00100ee6w.html
-//液晶屏上的采样点
-coordinate ScreenSample[3] =        {
-                                            { 712, 911 },
-                                                                                        { 3234, 898 },
-                                            { 2318, 3058 }
-                                } ;
+// Sampling points on the LCD screen
+coordinate ScreenSample [3] = {
+            {712, 911}
+            {3234, 898}
+            {2318, 3058}
+            };
 
-         //LCD上 对应的点
-coordinate DisplaySample[3] =   {
-                                            { 45, 45 },
-                                                                                        { 45, 270},
-                                            { 190,190}
-                                    } ;
+          // LCD for the corresponding point
+coordinate DisplaySample [3] = {
+            {45, 45},
+            {45, 270}
+            {190,190}
+            };
 
-这是 LCD坐标..跟触摸屏 得到的值....是入口参数  经过函数setCalibrationMatrix( &DisplaySample[0],&ScreenSample[0],&matrix ) ;   得到的参        是放到matrix 里面..
+This is a LCD with touch screen coordinate value .. .... get through the entrance parameters function setCalibrationMatrix (& DisplaySample [0], & ScreenSample [0], & matrix); the resulting matrix parameters are placed inside ..
 
-在经过函数 getDisplayPoint(&display, Read_Ads7846(), &matrix ) ;
-计算出X  Y的值..存放在 display里面
+After the function getDisplayPoint (& display, Read_Ads7846 (), & matrix);
+X Y calculated values stored in the display inside ..
 */
 
